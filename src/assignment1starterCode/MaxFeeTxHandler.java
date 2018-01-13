@@ -27,31 +27,7 @@ public class MaxFeeTxHandler {
    * values; and false otherwise.
    */
   public boolean isValidTx(Transaction tx) {
-    double accumulatedSum = 0;
-    HashSet<UTXO> claimedUtxos = new HashSet();
-    for (int index = 0; index < tx.numInputs(); ++index) {
-      Transaction.Input input = tx.getInput(index);
-      UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
-      Transaction.Output originOutput = utxoPool.getTxOutput(utxo);
-      if (originOutput == null) // Check if transaction exists in current UTXO pool.
-        return false;
-
-      if (!Crypto.verifySignature(originOutput.address, tx.getRawDataToSign(index), input.signature))
-        return false;
-
-      if (claimedUtxos.contains(utxo)) // Check if this input has already been consumed within this transaction.
-        return false;
-
-      claimedUtxos.add(utxo);
-      accumulatedSum += originOutput.value;
-    }
-
-    for (Transaction.Output output : tx.getOutputs()) {
-      if (output.value < 0)
-        return false;
-      accumulatedSum -= output.value;
-    }
-    return accumulatedSum >= 0;
+    return TxHandler.isValidTx(tx, utxoPool);
   }
 
   /** Calculates a transaction fee based */

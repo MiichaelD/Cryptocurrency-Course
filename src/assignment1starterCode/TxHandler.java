@@ -16,6 +16,10 @@ public class TxHandler {
     this.utxoPool = new UTXOPool(utxoPool);
   }
 
+  public boolean isValidTx(Transaction tx) {
+    return isValidTx(tx, utxoPool);
+  }
+
   /**
    * @return true if:
    * (1) all outputs claimed by {@code tx} (its inputs) are in the current UTXO pool,
@@ -25,7 +29,7 @@ public class TxHandler {
    * (5) the sum of {@code tx}s input values is greater than or equal to the sum of its output
    * values; and false otherwise.
    */
-  public boolean isValidTx(Transaction tx) {
+  public static boolean isValidTx(Transaction tx, UTXOPool utxoPool) {
     double accumulatedSum = 0;
     HashSet<UTXO> claimedUtxos = new HashSet();
     for (int index = 0; index < tx.numInputs(); ++index) {
