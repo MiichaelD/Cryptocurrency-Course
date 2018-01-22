@@ -1,10 +1,5 @@
 package assignment3starterCode;
 
-import assignment1starterCode.Crypto;
-import assignment1starterCode.Transaction;
-import assignment1starterCode.UTXO;
-import assignment1starterCode.UTXOPool;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 

@@ -6,11 +6,14 @@ import java.util.Arrays;
 public class ByteArrayWrapper {
 
     private byte[] contents;
+    private int hashCode;
 
     public ByteArrayWrapper(byte[] b) {
         contents = new byte[b.length];
-        for (int i = 0; i < contents.length; i++)
+        for (int i = 0; i < contents.length; i++) {
             contents[i] = b[i];
+        }
+        hashCode =  Arrays.hashCode(contents);
     }
 
     public boolean equals(Object other) {
@@ -37,6 +40,6 @@ public class ByteArrayWrapper {
     }
 
     public int hashCode() {
-        return Arrays.hashCode(contents);
+        return hashCode;
     }
 }
